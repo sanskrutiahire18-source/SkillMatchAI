@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillMatch AI Results</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #6b7280;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-title {
+            margin-top: 0;
+        }
+
+        /* =================================================
+           SKILLS
+        ================================================= */
+
+        .skill {
+            display: inline-block;
+            padding: 8px 13px;
+            margin: 5px;
+            background: #eef2ff;
+            color: #3730a3;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* =================================================
+           BEST MATCH
+        ================================================= */
+
+        .best {
+            background: #f0fdf4;
+            border: 2px solid #22c55e;
+            text-align: center;
+        }
+
+        .best-label {
+            color: #15803d;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .best-job {
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .best-percentage {
+            font-size: 48px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        /* =================================================
+           READINESS
+        ================================================= */
+
+        .readiness {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 8px 0 15px;
+        }
+
+        .ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .almost {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .needs {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* =================================================
+           JOB
+        ================================================= */
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .job-title {
+            margin: 0;
+            font-size: 23px;
+        }
+
+        .percentage {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        /* =================================================
+           PROGRESS
+        ================================================= */
+
+        .progress-container {
+            width: 100%;
+            height: 13px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .p0 {
+            width: 0%;
+        }
+
+        .p33 {
+            width: 33%;
+        }
+
+        .p67 {
+            width: 67%;
+        }
+
+        .p75 {
+            width: 75%;
+        }
+
+        .p90 {
+            width: 90%;
+        }
+
+        .p100 {
+            width: 100%;
+        }
+
+        .high {
+            background: #22c55e;
+        }
+
+        .medium {
+            background: #f59e0b;
+        }
+
+        .low {
+            background: #ef4444;
+        }
+
+        /* =================================================
+           DETAILS
+        ================================================= */
+
+        .details {
+            line-height: 1.7;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .empty {
+            color: #6b7280;
+        }
+
+        /* =================================================
+           RESUME ANALYSIS
+        ================================================= */
+
+        .resume-analysis {
+            background: #f8fafc;
+            border: 2px solid #6366f1;
+        }
+
+        .resume-score {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin: 15px 0 5px;
+        }
+
+        .resume-level {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .analysis-check {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 9px;
+        }
+
+        .found {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .missing {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .improve {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .analysis-suggestions {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .analysis-suggestion {
+            padding: 11px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+        }
+
+        /* =================================================
+           EXPLANATION
+        ================================================= */
+
+        .explanation {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .explanation h3 {
+            margin-top: 0;
+        }
+
+        /* =================================================
+           RESUME SUGGESTIONS
+        ================================================= */
+
+        .resume-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: #fff7ed;
+            border-radius: 12px;
+            border-left: 4px solid #f97316;
+        }
+
+        .resume-box h3 {
+            margin-top: 0;
+        }
+
+        .suggestion {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        /* =================================================
+           ROADMAP
+        ================================================= */
+
+        .roadmap {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .roadmap h3 {
+            margin-top: 0;
+        }
+
+        .roadmap-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 13px 0;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .step-number {
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #7c3aed;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* =================================================
+           LEARNING
+        ================================================= */
+
+        .learning {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .course {
+            display: inline-block;
+            padding: 11px 16px;
+            margin: 5px 5px 5px 0;
+            background: #eef2ff;
+            color: #3730a3;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .course:hover {
+            background: #e0e7ff;
+        }
+
+        /* =================================================
+           JOB SEARCH
+        ================================================= */
+
+        .job-search {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .job-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .job-button:hover {
+            background: #1d4ed8;
+        }
+
+        /* =================================================
+           BACK
+        ================================================= */
+
+        .back {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 10px;
+            padding: 12px 20px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            background: #374151;
+        }
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 650px) {
+
+            .container {
+                padding: 25px 14px;
+            }
+
+            .logo {
+                font-size: 30px;
+            }
+
+            .best-job {
+                font-size: 24px;
+            }
+
+            .best-percentage {
+                font-size: 40px;
+            }
+
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .analysis-check {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="header">
+
+        <div class="logo">
+            SkillMatch AI 🤖
+        </div>
+
+        <h2>
+            Hello, {{ name }}!
+        </h2>
+
+        <p class="subtitle">
+            AI-powered analysis of your skills and career opportunities.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         RESUME STRENGTH ANALYSIS
+    ================================================== -->
+
+    <div class="card resume-analysis">
+
+        <h2 class="section-title">
+            🧠 Resume Strength Analysis
+        </h2>
+
+        {% if resume_available %}
+
+            <div class="resume-score">
+                {{ resume_analysis.score }}/100
+            </div>
+
+            <div class="resume-level">
+                {{ resume_analysis.level }}
+            </div>
+
+
+            {% for check in resume_analysis.checks %}
+
+                <div class="analysis-check">
+
+                    <span>
+                        {{ check.name }}
+                    </span>
+
+
+                    {% if check.status == "found" %}
+
+                        <span class="found">
+                            ✅ Found
+                        </span>
+
+                    {% elif check.status == "strong" %}
+
+                        <span class="found">
+                            ✅ Strong
+                        </span>
+
+                    {% else %}
+
+                        <span class="missing">
+                            ⚠️ Needs Attention
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <div class="analysis-suggestions">
+
+                <h3>
+                    💡 Resume Improvement Tips
+                </h3>
+
+
+                {% for suggestion in resume_analysis.suggestions %}
+
+                    <div class="analysis-suggestion">
+                        ✅ {{ suggestion }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="analysis-suggestion">
+                ⚠️ We could not read text from your uploaded PDF.
+            </div>
+
+            <div class="analysis-suggestion">
+                Please upload a text-based PDF resume instead of a scanned/image-only PDF.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- =================================================
+         DETECTED SKILLS
+    ================================================== -->
+
+    <div class="card">
+
+        <h2 class="section-title">
+            🔍 Skills Detected
+        </h2>
+
+
+        {% if detected_skills %}
+
+            {% for skill in detected_skills %}
+
+                <span class="skill">
+                    {{ skill }}
+                </span>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="empty">
+                No skills detected yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =================================================
+         BEST MATCH
+    ================================================== -->
+
+    <div class="card best">
+
+        <div class="best-label">
+            🏆 YOUR BEST CAREER MATCH
+        </div>
+
+        <div class="best-job">
+            {{ best_job.job }}
+        </div>
+
+        <div class="best-percentage">
+            {{ best_job.percentage }}%
+        </div>
+
+
+        {% if best_job.percentage >= 75 %}
+
+            <div class="readiness ready">
+                🟢 Ready / Strong Match
+            </div>
+
+        {% elif best_job.percentage >= 40 %}
+
+            <div class="readiness almost">
+                🟡 Almost Ready
+            </div>
+
+        {% else %}
+
+            <div class="readiness needs">
+                🔴 Needs Improvement
+            </div>
+
+        {% endif %}
+
+
+        {% if best_job.missing %}
+
+            <p>
+                <strong>Skills to learn:</strong>
+                {{ best_job.missing }}
+            </p>
+
+        {% else %}
+
+            <p>
+                ✅ You have all the required skills for this role!
+            </p>
+
+        {% endif %}
+
+
+        <!-- WHY BEST MATCH -->
+
+        <div class="explanation">
+
+            <h3>
+                💡 Why this is your best match
+            </h3>
+
+
+            {% if best_job.missing %}
+
+                <p>
+                    You currently match
+                    <strong>{{ best_job.matching|length }}</strong>
+                    required skill(s) for this role.
+                </p>
+
+                <p>
+                    Developing the missing skills can improve
+                    your readiness.
+                </p>
+
+            {% else %}
+
+                <p>
+                    Your detected skills match all the required
+                    skills for this career.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- RESUME SUGGESTIONS -->
+
+        <div class="resume-box">
+
+            <h3>
+                📝 Resume Improvement Suggestions
+            </h3>
+
+
+            {% for suggestion in best_job.resume_suggestions %}
+
+                <div class="suggestion">
+                    ✅ {{ suggestion }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ROADMAP -->
+
+        <div class="roadmap">
+
+            <h3>
+                🗺️ Career Roadmap
+            </h3>
+
+            <p>
+                Follow these steps to become more prepared for
+                {{ best_job.job }}.
+            </p>
+
+
+            {% for step in best_job.roadmap %}
+
+                <div class="roadmap-step">
+
+                    <div class="step-number">
+                        {{ loop.index }}
+                    </div>
+
+                    <div>
+                        {{ step }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- FIND JOBS -->
+
+        <div class="job-search">
+
+            <h3>
+                🔎 Find Jobs
+            </h3>
+
+            <p>
+                Search current opportunities for this career.
+            </p>
+
+            <a
+                class="job-button"
+                href="{{ best_job.job_search_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                🔎 Find {{ best_job.job }} Jobs
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         OTHER CAREER MATCHES
+    ================================================== -->
+
+    <h2>
+        📊 Career Match Results
+    </h2>
+
+
+    {% for result in results %}
+
+        {% if result.job != best_job.job %}
+
+            <div class="card">
+
+
+                <!-- JOB HEADER -->
+
+                <div class="job-header">
+
+                    <h2 class="job-title">
+                        {{ result.job }}
+                    </h2>
+
+                    <div class="percentage">
+                        {{ result.percentage }}%
+                    </div>
+
+                </div>
+
+
+                <!-- READINESS -->
+
+                {% if result.percentage >= 75 %}
+
+                    <div class="readiness ready">
+                        🟢 Ready / Strong Match
+                    </div>
+
+                {% elif result.percentage >= 40 %}
+
+                    <div class="readiness almost">
+                        🟡 Almost Ready
+                    </div>
+
+                {% else %}
+
+                    <div class="readiness needs">
+                        🔴 Needs Improvement
+                    </div>
+
+                {% endif %}
+
+
+                <!-- PROGRESS -->
+
+                <div class="progress-container">
+
+                    {% if result.percentage >= 95 %}
+
+                        <div class="progress-bar p100 high"></div>
+
+                    {% elif result.percentage >= 85 %}
+
+                        <div class="progress-bar p90 high"></div>
+
+                    {% elif result.percentage >= 75 %}
+
+                        <div class="progress-bar p75 high"></div>
+
+                    {% elif result.percentage >= 65 %}
+
+                        <div class="progress-bar p67 medium"></div>
+
+                    {% elif result.percentage >= 30 %}
+
+                        <div class="progress-bar p33 medium"></div>
+
+                    {% else %}
+
+                        <div class="progress-bar p0 low"></div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DETAILS -->
+
+                <div class="details">
+
+                    <p>
+
+                        <span class="label">
+                            ✅ Matching skills:
+                        </span>
+
+
+                        {% if result.matching %}
+
+                            {{ result.matching }}
+
+                        {% else %}
+
+                            <span class="empty">
+                                None yet
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <p>
+
+                        <span class="label">
+                            📌 Skills to learn:
+                        </span>
+
+
+                        {% if result.missing %}
+
+                            {{ result.missing }}
+
+                        {% else %}
+
+                            ✅ None
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <!-- CAREER INSIGHT -->
+
+                <div class="explanation">
+
+                    <h3>
+                        💡 Career Insight
+                    </h3>
+
+
+                    {% if result.missing %}
+
+                        <p>
+                            You currently match
+                            <strong>{{ result.matching|length }}</strong>
+                            of the required skills.
+                            Learning the missing skills can improve
+                            your match.
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            ✅ Your detected skills cover all the
+                            required skills for this role.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- RESUME SUGGESTIONS -->
+
+                <div class="resume-box">
+
+                    <h3>
+                        📝 Resume Improvement Suggestions
+                    </h3>
+
+
+                    {% for suggestion in result.resume_suggestions %}
+
+                        <div class="suggestion">
+                            ✅ {{ suggestion }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- ROADMAP -->
+
+                <div class="roadmap">
+
+                    <h3>
+                        🗺️ Career Roadmap
+                    </h3>
+
+                    <p>
+                        Follow these steps to improve your readiness
+                        for {{ result.job }}.
+                    </p>
+
+
+                    {% for step in result.roadmap %}
+
+                        <div class="roadmap-step">
+
+                            <div class="step-number">
+                                {{ loop.index }}
+                            </div>
+
+                            <div>
+                                {{ step }}
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- LEARNING -->
+
+                {% if result.recommendations %}
+
+                    <div class="learning">
+
+                        <h3>
+                            📚 Recommended Learning
+                        </h3>
+
+                        <p>
+                            Build these skills to improve your match:
+                        </p>
+
+
+                        {% for course in result.recommendations %}
+
+                            <a
+                                class="course"
+                                href="{{ course.url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                🎓 {{ course.name }}
+                            </a>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- FIND JOBS -->
+
+                <div class="job-search">
+
+                    <h3>
+                        🔎 Find Jobs
+                    </h3>
+
+                    <p>
+                        Search current opportunities for this career.
+                    </p>
+
+                    <a
+                        class="job-button"
+                        href="{{ result.job_search_url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        🔎 Find {{ result.job }} Jobs
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    <!-- BACK -->
+
+    <a class="back" href="/">
+        ← Try Another Profile
+    </a>
+
+
+</div>
+
+</body>
+
+</html>
